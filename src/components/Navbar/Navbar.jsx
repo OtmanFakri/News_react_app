@@ -2,10 +2,12 @@ import tw from "tailwind-styled-components"
 import {FaAccessibleIcon} from "react-icons/fa";
 
 import {model_nav} from "../../Models/Navbar_model.jsx";
-import {Link, Outlet} from "react-router-dom";
+import {Link, NavLink, Outlet} from "react-router-dom";
 
 function Navbar(props) {
-
+    const isActive = (match, location) => {
+        return match != null;
+    };
     const todo = [
         new model_nav('Weather', false, "/Weather"),
         new model_nav('Insight', false, "/Insight"),
@@ -36,12 +38,13 @@ function Navbar(props) {
     
 `
 
-    const listTitle=todo.map(value => {
+    const listTitle = todo.map(value => {
         return (
             <Titles key={value.link}>
-                <Link className={"flex flex-row items-center "} to={value.link}>
+                <NavLink  isActive={isActive}
+                         className={"flex flex-row items-center "} to={value.link}>
                     <FaAccessibleIcon className={"mx-1"}/> {value.title}
-                </Link>
+                </NavLink>
             </Titles>
         )
     })
@@ -50,7 +53,7 @@ function Navbar(props) {
             <Rectangle>
                 {listTitle}
             </Rectangle>
-            <Outlet />
+            <Outlet/>
         </>
     );
 }

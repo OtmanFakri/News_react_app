@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import tw from "tailwind-styled-components";
 import {model_News} from "../../Models/News_models.jsx";
-import NewsJson from "../../assets/News.json"
 import Detail  from "../News_Detail/Detail";
+import { Link } from "react-router-dom";
 
 
 function News(props) {
@@ -37,10 +37,11 @@ function News(props) {
 
     const [NewsList, SetNewsList] = useState()
 
-    const new1 = (it) =>{
-        SetNewsList(it)
 
-    }
+    const handleClick = (id) => {
+        // Invoke the updateCount callback function with the new count value
+      props.fund(id)
+    };
 
     {/* Fetch api News */
     }
@@ -74,10 +75,9 @@ function News(props) {
 
 
 
-    const pst = NewsJson["articles"]?.map(item => (
-        <Card onClick={
-            ()=><Detail name={SetNewsList(item)}/>
-        } key={item.title}>
+    const pst = props.newsjson?.map((item,index) => (
+        <Link  key={item.title} to={`/News/${item.title}`} >
+        <Card onClick={()=>handleClick(index)} key={item.title}>
             <div className={"flex flex-row h-full  w-full "}>
                 <div className={"flex items-center"}>
                     <div className={`bg-cover w-[9.75rem]   h-[90%]  rounded-[9px]  flex-none mx-2 p-5 `}
@@ -107,10 +107,11 @@ function News(props) {
 
             </div>
         </Card>
+        </Link>
     ))
 
     return (
-        <div className={"flex flex-row "}>
+        <div className={" "}>
             <div className={"flex flex-col h-[100vh] overflow-y-scroll"}>
                 {NewsList?.length === 0 ? (
                     <div className={" h-[100vh] overflow-y-scroll "}>
@@ -121,7 +122,7 @@ function News(props) {
                     pst
                 )}
             </div>
-                <Detail  name={NewsList}></Detail>
+
         </div>
 
     );
